@@ -55,6 +55,16 @@ class TestBuildReviewBody:
         assert "4 issues" in body
         assert len(inline) == 2  # only critical + high
 
+    def test_high_issues_in_table(self):
+        body, _ = build_review_body([_make_positioned("critical")])
+        assert "| Line |" in body
+        assert "**Issues**" in body
+
+    def test_low_issues_in_suggestions(self):
+        body, _ = build_review_body([_make_positioned("low")])
+        assert "**Suggestions**" in body
+        assert "| Line |" not in body
+
     def test_multiple_files(self):
         positioned = [
             _make_positioned("high", path="a.py"),

@@ -148,12 +148,28 @@ def build_review_body(positioned: list[dict]) -> tuple[str, list[dict]]:
 
     for path, entries in by_file.items():
         entries.sort(key=lambda e: e["issue"].line)
+        issues = [e for e in entries if e["issue"].severity.value in ("critical", "high")]
+        suggestions = [e for e in entries if e["issue"].severity.value in ("medium", "low")]
+
         parts.append(f"\n### `{path}`\n")
-        for e in entries:
-            iss = e["issue"]
-            emoji = SEVERITY_EMOJI.get(iss.severity, "")
-            parts.append(f"- {emoji} **L{iss.line}** [{iss.severity.value.upper()}]: {iss.issue}")
-            parts.append(f"  > {iss.suggestion}\n")
+
+        if issues:
+            parts.append("**Issues**\n")
+            parts.append("| Line | Severity | Problem | Fix |")
+            parts.append("|:-----|:---------|:--------|:----|")
+            for e in issues:
+                iss = e["issue"]
+                emoji = SEVERITY_EMOJI.get(iss.severity, "")
+                parts.append(f"| L{iss.line} | {emoji} {iss.severity.value.upper()} | {iss.issue} | {iss.suggestion} |")
+            parts.append("")
+
+        if suggestions:
+            parts.append("**Suggestions**\n")
+            for e in suggestions:
+                iss = e["issue"]
+                emoji = SEVERITY_EMOJI.get(iss.severity, "")
+                parts.append(f"- {emoji} **L{iss.line}**: {iss.issue} — _{iss.suggestion}_")
+            parts.append("")
 
     body = "\n".join(parts)
 
