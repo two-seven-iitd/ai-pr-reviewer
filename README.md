@@ -5,7 +5,7 @@ A GitHub Action that automatically reviews pull requests using LLMs. When a PR i
 **Zero infrastructure required** — no servers, no databases, no Docker to manage. Add one workflow file, set one secret, done.
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
-![Tests](https://img.shields.io/badge/tests-51%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/tests-53%20passed-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
@@ -159,7 +159,7 @@ pytest -v
 ```
 
 ```
-51 passed in 2.5s
+53 passed in 2.5s
 ```
 
 | Test file | Tests | What it verifies |
@@ -168,7 +168,7 @@ pytest -v
 | `test_chunker.py` | 14 | AST chunking, block chunking with overlap, content hashing |
 | `test_position_mapper.py` | 7 | Line-to-position mapping, nearest line fallback |
 | `test_prompts.py` | 5 | Prompt construction, profile focus, line numbering |
-| `test_review_builder.py` | 10 | Review body formatting, severity-based inline filtering |
+| `test_review_builder.py` | 12 | Review body formatting, severity-based inline filtering |
 
 No mocks, no external services needed — all tests run against pure logic.
 
