@@ -1,0 +1,50 @@
+name: 'AI PR Reviewer'
+description: 'Automatically review pull requests using LLMs. Finds bugs, security issues, and performance problems.'
+author: 'Ankit'
+
+branding:
+  icon: 'eye'
+  color: 'blue'
+
+inputs:
+  openrouter_api_key:
+    description: 'Your OpenRouter API key (get one at https://openrouter.ai/keys)'
+    required: true
+  model:
+    description: 'LLM model to use for reviews'
+    required: false
+    default: 'deepseek/deepseek-v4-flash'
+  profile:
+    description: 'Review focus: all, security, performance, bugs, or style'
+    required: false
+    default: 'all'
+  max_files:
+    description: 'Maximum number of files to review per PR'
+    required: false
+    default: '20'
+  max_concurrent:
+    description: 'Maximum concurrent LLM API calls'
+    required: false
+    default: '5'
+  exclude:
+    description: 'Comma-separated list of extra path patterns to skip (e.g. "docs/,scripts/")'
+    required: false
+    default: ''
+  github_token:
+    description: 'GitHub token (defaults to the automatic GITHUB_TOKEN)'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  issues:
+    description: 'Total number of issues found'
+  comments:
+    description: 'Number of inline comments posted'
+  files_reviewed:
+    description: 'Number of files reviewed'
+  time_ms:
+    description: 'Review duration in milliseconds'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
